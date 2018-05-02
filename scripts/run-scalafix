@@ -1,0 +1,95 @@
+#!/bin/bash
+set -e
+set -x
+
+SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $SCRIPTS_DIR && cd ..
+
+#warm up bazel
+./bazel &> /dev/null
+
+
+echo "Root dir: $SCRIPTS_DIR"
+
+BUILD_TARGET_QUERY=$1
+shift
+
+if [ -z "$BUILD_TARGET_QUERY" ]; then
+  echo "No build target specified!"
+  exit 1
+fi
+
+
+ALL_BUILD_TARGETS=$(./bazel query "kind('.*library', $BUILD_TARGET_QUERY)")
+
+
+for BUILD_TARGET in $ALL_BUILD_TARGETS; do
+  echo "Processing: $BUILD_TARGET"
+  JARS=""
+  COLON_JARS=""
+  TARGET_PATHS=""
+
+  for t in $BUILD_TARGET; do
+    JAR_NAME="bazel-out/darwin-fastbuild/bin/$(echo $t | sed -e 's/:/\//g' | sed -e 's/^\/\///g' ).jar"
+    JARS="$JARS ${JAR_NAME}"
+    COLON_JARS="$COLON_JARS:${JAR_NAME}"
+    TARGET_PATHS="$TARGET_PATHS\"//${t}\","
+  done
+
+  FILES=""
+  for f in $(./bazel query "labels('srcs', $BUILD_TARGET)"); do
+    if [[ "$f" =~ .*\.scala ]]; then
+      SRC_FILE=$(echo $f | sed -e 's/^\/\///g' | sed -e 's/:/\//g')
+      if [[ "$SRC_FILE" =~ src/.* ]]; then
+        FILES="$FILES $SRC_FILE"
+      fi
+    else
+      echo "Ignoring $f"
+    fi
+  done
+
+  if [ "$FILES" == "" ]; then
+    echo "Skipping $BUILD_TARGET since no files"
+  else
+    BUILD_TARGET_REMOVED_TRAILING_SLASH=$(echo $BUILD_TARGET | sed -e 's/\/$//g')
+
+    TRAILING_PORTION=$(echo $BUILD_TARGET_REMOVED_TRAILING_SLASH | sed -e 's/.*\/\([A-Za-z0-9_]*\)\/\([A-Za-z0-9_]*\)/\1_\2/g' | sed -e 's/:/__/g')
+
+    export TARGET_NAME="scalafix_cp_builder${TRAILING_PORTION}"
+
+    EXTRA_DEPS=""
+
+    mkdir -p src/tmp_launcher
+    cat > src/tmp_launcher/BUILD <<- EOM
+    scala_binary(
+      name = "$TARGET_NAME",
+      main_class = "none",
+      deps = [
+        $TARGET_PATHS
+        "//3rdparty/jvm/org/scala_lang:scala_compiler",
+        $EXTRA_DEPS
+      ],
+      runtime_deps = [
+        "//3rdparty/jvm/org/scala_lang:scala_compiler",
+        "//3rdparty/jvm/jline",
+      ],
+      visibility = ["//visibility:public"]
+    )
+
+EOM
+
+    ./bazel build src/tmp_launcher:${TARGET_NAME}_deploy.jar
+
+    JAR_PATH=bazel-bin/src/tmp_launcher/${TARGET_NAME}_deploy.jar
+
+    echo "Processing $FILES"
+    set +e
+    ./scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
+    RES=$?
+    # set -e
+    if [ $RES != 0 ]; then
+      sleep 5
+      ./scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
+    fi
+  fi
+done
