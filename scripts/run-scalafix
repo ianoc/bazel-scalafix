@@ -30,7 +30,7 @@ for BUILD_TARGET in $ALL_BUILD_TARGETS; do
   TARGET_PATHS=""
 
   for t in $BUILD_TARGET; do
-    JAR_NAME="bazel-out/*-fastbuild/bin/$(echo $t | sed -e 's/:/\//g' | sed -e 's/^\/\///g' ).jar"
+    JAR_NAME="bazel-out/darwin-fastbuild/bin/$(echo $t | sed -e 's/:/\//g' | sed -e 's/^\/\///g' ).jar"
     JARS="$JARS ${JAR_NAME}"
     COLON_JARS="$COLON_JARS:${JAR_NAME}"
     TARGET_PATHS="$TARGET_PATHS\"//${t}\","
@@ -87,12 +87,13 @@ EOM
 
     echo "Processing $FILES"
     set +e
-    ./scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
+    ./scripts/scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
     RES=$?
-    # set -e
+    # For some unknown reason, sometimes running it again works when the first gives a classpath error.
+    set -e
     if [ $RES != 0 ]; then
       sleep 5
-      ./scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
+      ./scripts/scalafix --dependency-classpath $JAR_PATH --classpath $COLON_JARS $@ $FILES
     fi
   fi
 done
