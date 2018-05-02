@@ -1,3 +1,4 @@
 *.class
 *.log
 bazel-*
+tmp_targets
