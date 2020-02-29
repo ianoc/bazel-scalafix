@@ -14,7 +14,7 @@ java_version_config = {
         },
         "platform_to_sha256": {
             "macosx_x64": "6146b7fa7552a1853b7b0f228b1f4802d4ffb704f83eb0b1a74b1649d10194cd",
-            "linux_x64": "6146b7fa7552a1853b7b0f228b1f4802d4ffb704f83eb0b1a74b1649d10194cd",
+            "linux_x64": "2db117fcaeec0ccd00d08fc3bb374aa15d871a01120d7090cf91fe9764756ae9",
         },
         "prefix": "zulu8.44.0.11-ca-jdk8.0.242-{platform}",
     },
