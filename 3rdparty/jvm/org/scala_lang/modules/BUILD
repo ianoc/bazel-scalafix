@@ -6,7 +6,7 @@ scala_library(
         "@scala//:scala-parser-combinators"
     ],
     visibility = [
-        "//visibility:public"
+        "//3rdparty/jvm:__subpackages__"
     ]
 )
 
@@ -18,7 +18,7 @@ scala_library(
         "@scala//:scala-xml"
     ],
     visibility = [
-        "//visibility:public"
+        "//3rdparty/jvm:__subpackages__"
     ]
 )
 
