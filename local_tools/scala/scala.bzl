@@ -23,7 +23,7 @@ _default_scalac_opts = [
 
 # We use the linter: https://github.com/HairyFotr/linter
 # This is disabled by default since it has a large performance overhead.
-_plugins = []#["@org_scalameta_semanticdb_scalac_2_11_12//jar:file"]  # "@org_psywerx_hairyfotr_linter_2_11//jar:file"]
+_plugins = ["@org_scalameta_semanticdb_scalac_2_12_10//jar:file"]  # "@org_psywerx_hairyfotr_linter_2_11//jar:file"]
 
 def default_scalac_opts(exclude_list = [], extra_scala_opts = []):
     return [x for x in _default_scalac_opts if x not in exclude_list] + extra_scala_opts
@@ -41,7 +41,7 @@ def scala_library(name, srcs = [], deps = [], runtime_deps = [], data = [], reso
 
 
 def scala_macro_library(name, srcs = [], deps = [], runtime_deps = [], data = [], resources = [],
-                        scalacopts = default_scalac_opts, main_class = "", exports = [], visibility = None):
+                        scalacopts = default_scalac_opts(), main_class = "", exports = [], visibility = None):
     uppstream_macro(name = name, srcs = srcs, deps = deps, runtime_deps = runtime_deps,
                     plugins = _plugins,
                     resources = resources, scalacopts = scalacopts,
@@ -50,7 +50,7 @@ def scala_macro_library(name, srcs = [], deps = [], runtime_deps = [], data = []
 
 
 def scala_binary(name, srcs = [], deps = [], runtime_deps = [], data = [], resources = [],
-                 resource_jars = [], scalacopts = default_scalac_opts, jvm_flags = [],
+                 resource_jars = [], scalacopts = default_scalac_opts(), jvm_flags = [],
                  main_class = "", visibility = None):
     uppstream_bin(name = name, srcs = srcs, deps = deps, runtime_deps = runtime_deps,
                   plugins = _plugins,

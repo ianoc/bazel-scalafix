@@ -28,7 +28,7 @@ fi
 cd $BAZEL_DEPS_REPO_PATH
 git reset --hard $GITSHA || (git fetch && git reset --hard $GITSHA)
 set +e
-$REPO_ROOT/bazel run //:parse -- generate -r $REPO_ROOT -s 3rdparty/workspace.bzl -d dependencies.yaml
+$REPO_ROOT/bazel run //:parse -- generate -r $REPO_ROOT -s 3rdparty/workspace.bzl -d dependencies.yaml  --target-file 3rdparty/target_file.bzl --disable-3rdparty-in-repo
 RET_CODE=$?
 set -e
 

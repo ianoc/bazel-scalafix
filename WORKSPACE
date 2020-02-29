@@ -36,11 +36,11 @@ scala_repositories((
     ))
 
 
-load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_toolchains")
-scala_register_toolchains()
-
 bind(name = 'io_bazel_rules_scala/dependency/scalatest/scalatest', actual = '//3rdparty/jvm/org/scalatest:scalatest')
 bind(name = 'io_bazel_rules_scala/dependency/junit/junit', actual = '//3rdparty/jvm/junit:junit')
+
+load("//3rdparty:target_file.bzl", "build_external_workspace")
+build_external_workspace("third_party_jvm")
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
 maven_dependencies()
@@ -51,3 +51,31 @@ load_java(
     name = "fetched_openjdk_8",
     jdk_major_version = "8",
 )
+
+
+bind(
+    name = "io_bazel_rules_scala/dependency/scala/scala_compiler",
+    actual = "@third_party_jvm//3rdparty/jvm/org/scala_lang:scala_compiler",
+)
+
+bind(
+    name = "io_bazel_rules_scala/dependency/scala/scala_library",
+    actual = "@third_party_jvm//3rdparty/jvm/org/scala_lang:scala_library",
+)
+
+bind(
+    name = "io_bazel_rules_scala/dependency/scala/scala_reflect",
+    actual = "@third_party_jvm//3rdparty/jvm/org/scala_lang:scala_reflect",
+)
+
+bind(
+    name = "io_bazel_rules_scala/dependency/scala/scala_xml",
+    actual = "@third_party_jvm//3rdparty/jvm/org/scala_lang/modules:scala_xml",
+)
+
+bind(
+    name = "io_bazel_rules_scala/dependency/scala/parser_combinators",
+    actual = "@third_party_jvm//3rdparty/jvm/org/scala_lang/modules:parser_combinators",
+)
+
+register_toolchains("//toolchains:local_scala_toolchain")
