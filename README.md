@@ -1,4 +1,5 @@
-# bazel-scalafix
+![CI](https://github.com/ianoc/bazel-scalafix/workflows/CI/badge.svg)
+# bazel-scalafix 
 Example of using scalafix with bazel + scala_rules
 
 A short example to show how to use bazel + scala fix for simple refactoring/rule application. So far this isn't really something you can keep on for every build. A few harder problems but likely some large improvements can be made for this:
