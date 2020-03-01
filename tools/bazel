@@ -2,6 +2,7 @@
 
 # Update the WORKSPACE to point at new bazel versions
 # https://github.com/bazelbuild/bazel
+set -e
 
 ORIGINAL_PWD=$PWD
 TMPDIR="${TMPDIR:-/tmp}"
