@@ -41,8 +41,9 @@ jobs:
         with:
           name: scalafmt-macos
           path: downloads
-      - name: mv binaries
+      - name: mv binaries linux
         run: mv downloads/scalafmt-linux/scalafmt scalafmt-linux
+      - name: mv binaries macos
         run: mv downloads/scalafmt-macos/scalafmt scalafmt-macos
       - name: Look at local
         run: ls -lR
