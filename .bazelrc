@@ -3,3 +3,7 @@ build --host_javabase=@fetched_openjdk_8//:jdk
 build --javabase=@fetched_openjdk_8//:jdk
 build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
 build --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
+
+
+build:github_actions --disk_cache .bazel-cache/disk-cache
+build:github_actions --repository_cache .bazel-cache/repo-cache

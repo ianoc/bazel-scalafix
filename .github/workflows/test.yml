@@ -9,9 +9,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Bazel output cache
+      id: cache-primes
+      uses: actions/cache@v1
+      with:
+        path: .bazel-cache
+        key: ${{ runner.os }}-bazel-out
     - name: Run bazel build all
       run: ./bazel build //...
-    - name: Run bazel test all
-      run: |
-        ./bazel test //...
+    # - name: Run bazel test all
+    #   run: |
+    #     ./bazel test //...
 
