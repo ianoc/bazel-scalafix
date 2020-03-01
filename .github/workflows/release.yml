@@ -35,14 +35,17 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: scalafmt-linux
+          path: downloads
       - name: Download linux scalafmt
         uses: actions/download-artifact@v1
         with:
           name: scalafmt-macos
+          path: downloads
+      - name: mv binaries
+        run: mv downloads/scalafmt-linux/scalafmt scalafmt-linux
+        run: mv downloads/scalafmt-macos/scalafmt scalafmt-macos
       - name: Look at local
         run: ls -lR
-      - name: Look at Linux
-        run: cat scalafmt-linux
       - name: Look at macos
         run: cat scalafmt-macos
       - uses: "marvinpinto/action-automatic-releases@v0.3.0"
