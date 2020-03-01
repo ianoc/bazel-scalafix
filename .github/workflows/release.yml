@@ -35,12 +35,14 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: scalafmt-linux
-          path: downloads
+          path: downloads/scalafmt-linux
       - name: Download linux scalafmt
         uses: actions/download-artifact@v1
         with:
           name: scalafmt-macos
-          path: downloads
+          path: downloads/scalafmt-macos
+      - name: Look at localA
+        run: ls -lR
       - name: mv binaries linux
         run: mv downloads/scalafmt-linux/scalafmt scalafmt-linux
       - name: mv binaries macos

@@ -4,6 +4,7 @@ build --javabase=@fetched_openjdk_8//:jdk
 build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
 build --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
 
+build --experimental_strict_action_env
 
 build:github_actions --announce_rc
 build:github_actions --disk_cache %workspace%/.bazel-cache/disk-cache
