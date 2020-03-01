@@ -40,7 +40,7 @@ jobs:
         with:
           name: scalafmt-macos
       - name: Look at local
-        run: ls -l
+        run: ls -lR
       - name: Look at Linux
         run: cat scalafmt-linux
       - name: Look at macos
