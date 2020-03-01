@@ -21,7 +21,7 @@ jobs:
             artifact: scalafmt-linux
     steps:
       - uses: actions/checkout@v2
-      - run: cp bazel scalafmt
+      - run: echo "${{ runner.os }}" > scalafmt
         env:
           CI: true
       - uses: actions/upload-artifact@master
