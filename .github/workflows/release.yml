@@ -28,3 +28,26 @@ jobs:
         with:
           name: ${{ matrix.artifact }}
           path: scalafmt
+  make_release:
+    name: Display results
+    needs: native-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download linux scalafmt
+        uses: actions/download-artifact@v1
+        with:
+          name: scalafmt-linux
+      - name: Download linux scalafmt
+        uses: actions/download-artifact@v1
+        with:
+          name: scalafmt-macos
+      - uses: "marvinpinto/action-automatic-releases@0.3.0"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "v0.1-${{ github.run_number }}"
+          prerelease: false
+          title: "Auto generated release"
+          files: |
+            scalafmt-macos
+            scalafmt-linux
+        id: "automatic_releases"
