@@ -22,8 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "${{ runner.os }}" > scalafmt
-        env:
-          CI: true
       - uses: actions/upload-artifact@master
         with:
           name: ${{ matrix.artifact }}
@@ -43,6 +41,10 @@ jobs:
           name: scalafmt-macos
       - name: Look at local
         run: ls -l
+      - name: Look at Linux
+        run: cat scalafmt-linux
+      - name: Look at macos
+        run: cat scalafmt-macos
       - uses: "marvinpinto/action-automatic-releases@v0.3.0"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
