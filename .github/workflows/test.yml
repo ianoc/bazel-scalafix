@@ -16,6 +16,8 @@ jobs:
       with:
         path: .bazel-cache
         key: ${{ runner.os }}-bazel-out
+    - name: Configure bazel config for actions
+      run: cat "build --config github_actions" > /etc/bazel.bazelrc
     - name: Run bazel build all
       run: ./bazel build //...
     # - name: Run bazel test all
