@@ -51,7 +51,7 @@ jobs:
         run: ls -lR
       - name: Look at macos
         run: cat scalafmt-macos
-      - uses: "marvinpinto/action-automatic-releases@v0.3.0"
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "v0.1-${{ github.run_number }}"
