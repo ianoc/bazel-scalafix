@@ -23,11 +23,11 @@ jobs:
     - name: Ensure bazel on box
       run: ./bazel
       env:
-        BAZEL_BIN_LOC: "${{ HOME }}/.bazel-cache/bazel-bin"
+        BAZEL_BIN_LOC: "${{ env.HOME }}/.bazel-cache/bazel-bin"
     - name: Run bazel build all
       run: ./bazel build //...
       env:
-        BAZEL_BIN_LOC: "${{ HOME }}/.bazel-cache/bazel-bin"
+        BAZEL_BIN_LOC: "${{ env.HOME }}/.bazel-cache/bazel-bin"
     # - name: Run bazel test all
     #   run: |
     #     ./bazel test //...
