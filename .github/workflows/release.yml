@@ -41,6 +41,8 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: scalafmt-macos
+      - name: Look at local
+        run: ls -l
       - uses: "marvinpinto/action-automatic-releases@v0.3.0"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
