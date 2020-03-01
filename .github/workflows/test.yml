@@ -14,7 +14,7 @@ jobs:
       id: cache-primes
       uses: actions/cache@v1
       with:
-        path: ~/.bazel-cache
+        path: "${{ github.workspace }}/.bazel-cache"
         key: ${{ runner.os }}-bazel-out-${{ github.run_id}}
         restore-keys: |
           ${{ runner.os }}-bazel-out-
@@ -23,11 +23,11 @@ jobs:
     - name: Ensure bazel on box
       run: ./bazel
       env:
-        BAZEL_BIN_LOC: "${{ env.HOME }}/.bazel-cache/bazel-bin"
+        BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
     - name: Run bazel build all
       run: ./bazel build //...
       env:
-        BAZEL_BIN_LOC: "${{ env.HOME }}/.bazel-cache/bazel-bin"
+        BAZEL_BIN_LOC: "${{ github.workspace }}/.bazel-cache/bazel-bin"
     # - name: Run bazel test all
     #   run: |
     #     ./bazel test //...
