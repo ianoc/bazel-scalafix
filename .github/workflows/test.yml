@@ -20,6 +20,10 @@ jobs:
           ${{ runner.os }}-bazel-out-
     - name: Configure bazel config for actions
       run: echo "build --config github_actions" > user.bazelrc
+    - name: Ensure bazel on box
+      run: ./bazel
+      env:
+        BAZEL_BIN_LOC: ~/.bazel-cache/bazel-bin
     - name: Run bazel build all
       run: ./bazel build //...
       env:
