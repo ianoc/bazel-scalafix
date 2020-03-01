@@ -7,3 +7,6 @@ build --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
 
 build:github_actions --disk_cache .bazel-cache/disk-cache
 build:github_actions --repository_cache .bazel-cache/repo-cache
+
+
+try-import %workspace%/user.bazelrc
