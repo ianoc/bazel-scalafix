@@ -109,9 +109,12 @@ mkdir -p $BUILD_DIR
   fi
 
   chmod +x ${INSTALLER_NAME}
+  mkdir -p ${BAZEL_BIN_LOC}/${BAZEL_VERSION}/bin_t
+
   ./${INSTALLER_NAME} --base=${BAZEL_BIN_LOC}/${BAZEL_VERSION} --bin=${BAZEL_BIN_LOC}/${BAZEL_VERSION}/bin_t
 )
 rm -rf $BUILD_DIR
 
 cd $ORIGINAL_PWD
+ls -R ${BAZEL_BIN_LOC}
 exec $BAZEL_EXEC_PATH "$@"
