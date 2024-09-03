@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download linux scalafmt
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: scalafmt-linux
           path: downloads/scalafmt-linux
       - name: Download linux scalafmt
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: scalafmt-macos
           path: downloads/scalafmt-macos
